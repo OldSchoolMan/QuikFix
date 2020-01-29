@@ -45,7 +45,6 @@
   <ItemGroup>
     <Compile Include="FixWorker.cs" />
     <Compile Include="HeartBeatMessage.cs" />
-    <Compile Include="IMessage.cs" />
     <Compile Include="LogonMessage.cs" />
     <Compile Include="HeaderMessage.cs" />
     <Compile Include="LogoutMessage.cs" />

@@ -12,9 +12,14 @@ namespace QuikFix
         public int MsgSeqNum { get; set; }
         public DateTime SendingTime { get; set; }
 
-        public HeaderMessage()
+        public HeaderMessage(string msgType, int msgSeqNum)
         {
+            BeginString = "FIX.4.4";
+            MsgType = msgType;
             SendingTime = DateTime.Now;
+            SenderCompID = "";      //  TEST    было наоборот   QUIK 
+            TargetCompID = ""; // FG    QUIK было наоборот  TEST
+            MsgSeqNum = msgSeqNum;
         }
 
         public override string ToString()   //  формирование строки заголовка
@@ -25,7 +30,7 @@ namespace QuikFix
                 MsgType,
                 MsgSeqNum.ToString(),
                 SenderCompID,
-                SendingTime.AddHours(-3).ToString("yyyyMMdd-HH:mm:ss.fff"), //  -2 GMT? Калининград!
+                SendingTime.AddHours(-3).ToString("yyyyMMdd-HH:mm:ss.ffffff"), //  -2 GMT? Калининград!
                 TargetCompID);
         }
 
@@ -36,7 +41,7 @@ namespace QuikFix
                 SenderCompID,
                 TargetCompID,
                 MsgSeqNum.ToString(),
-                SendingTime.AddHours(-3).ToString("yyyyMMdd-HH:mm:ss.fff"));
+                SendingTime.AddHours(-3).ToString("yyyyMMdd-HH:mm:ss.ffffff"));
             return tmpString.Length;
         }
     }

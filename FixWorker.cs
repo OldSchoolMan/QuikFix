@@ -16,8 +16,6 @@ namespace QuikFix
         private int _messageCount = 1;   //  номер отправляемого сообщения
         public List<string> messagesReceive = new List<string>();
 
-
-
         private string Server { get; set; }
         private int Port { get; set; }
         private List<string> GetFieldsFromMessage(string message)
@@ -59,7 +57,7 @@ namespace QuikFix
             bytesRec = sSender.Receive(bytes);
             Console.WriteLine("{0}: Ответ от сервера: {1}", DateTime.Now.ToString("HH:mm:ss.fff"), Encoding.UTF8.GetString(bytes, 0, bytesRec));
 
-            #region 
+            #region пока не работает
             /*
             if (bytesRec > 0)
             {
@@ -92,7 +90,7 @@ namespace QuikFix
             #endregion
         }
 
-        public void ShowMessage(int nMessage)
+        public void ShowMessage(int nMessage)   //  пока не работает
         {
             if (messagesReceive.Count > 0)
             {
@@ -138,17 +136,8 @@ namespace QuikFix
         public void Logon(int encryptMethod = 0, int heartBtInt = 5, bool resetSeqNumFlag = true) // 108=3000 это слишком много, обычно используется 90. Часто меньше.
         {
             //Создаем заголовок
-            #region Создание заголовка сообщения
-            HeaderMessage msHeader = new HeaderMessage
-            {
-                BeginString = "FIX.4.2",
-                MsgType = "A", //Тип сообщения на установку сессии "A"
-                SenderCompID = "TEST",      //  было наоборот   QUIK 
-                TargetCompID = "QUIK",      // FGбыло наоборот  TEST
-                MsgSeqNum = _messageCount++
-            };
-            #endregion
-
+            HeaderMessage msHeader = new HeaderMessage("A", _messageCount++); //Тип сообщения на установку сессии "A"
+            
             //Создаем сообщение на подключение onLogon
             LogonMessage msLogon = new LogonMessage(encryptMethod, heartBtInt, resetSeqNumFlag);
 
@@ -181,16 +170,7 @@ namespace QuikFix
 
             // 8 = FIX.4.29 = 4035 = 534 = 149 = TEST56 = QUIK58 = Logout10 = 158
             //Создаем заголовок
-            #region Создание заголовка сообщения
-            HeaderMessage msHeader = new HeaderMessage
-            {
-                BeginString = "FIX.4.2",
-                MsgType = "5",
-                SenderCompID = "TEST",      //      было наоборот   QUIK 
-                TargetCompID = "QUIK",      // FG   было наоборот   TEST
-                MsgSeqNum = _messageCount++
-            };
-            #endregion
+            HeaderMessage msHeader = new HeaderMessage("5", _messageCount++);
 
             LogoutMessage msLogout = new LogoutMessage("Logout");
             msHeader.BodyLength = msHeader.GetHeaderSize() + msLogout.GetMessageSize();
@@ -208,16 +188,7 @@ namespace QuikFix
 
         public void HeartBeat()
         {
-            #region Создание заголовка сообщения
-            HeaderMessage msHeader = new HeaderMessage
-            {
-                BeginString = "FIX.4.2",
-                MsgType = "0",
-                SenderCompID = "TEST",      //      было наоборот   QUIK 
-                TargetCompID = "QUIK",      // FG   было наоборот   TEST
-                MsgSeqNum = _messageCount++
-            };
-            #endregion
+            HeaderMessage msHeader = new HeaderMessage("0", _messageCount++);
 
             HeartBeatMessage msHeartBeat = new HeartBeatMessage("CRT");
             msHeader.BodyLength = msHeader.GetHeaderSize() + msHeartBeat.GetMessageSize();
@@ -231,22 +202,13 @@ namespace QuikFix
             //Отправляем сообщение
             int bytesSent = sSender.Send(msg);
             Console.WriteLine("Отправил {0} байт", bytesSent.ToString());
-
         }
 
-        public void Order(string price, string side)
+        public void Order(string price, string side, char ordType)
         {
-            #region Создание заголовка сообщения
-            HeaderMessage msHeader = new HeaderMessage
-            {
-                BeginString = "FIX.4.2",
-                MsgType = "D",
-                SenderCompID = "TEST",      //      было наоборот   QUIK 
-                TargetCompID = "QUIK",      // FG   было наоборот   TEST
-                MsgSeqNum = _messageCount++
-            };
-            #endregion
-            OrderMessage msOrder = new OrderMessage(price, side);
+            HeaderMessage msHeader = new HeaderMessage("D", _messageCount++);
+
+            OrderMessage msOrder = new OrderMessage(price, side, ordType);
             msHeader.BodyLength = msHeader.GetHeaderSize() + msOrder.GetMessageSize();
             
             TrailerMessage msTrailer = new TrailerMessage(msHeader.ToString() + msOrder.ToString());
@@ -262,16 +224,8 @@ namespace QuikFix
 
         public void SendSecurityDefinition()
         {
-            #region Создание заголовка сообщения
-            HeaderMessage msHeader = new HeaderMessage
-            {
-                BeginString = "FIX.4.2",
-                MsgType = "c",
-                SenderCompID = "TEST",      //      было наоборот   QUIK 
-                TargetCompID = "QUIK",      // FG   было наоборот   TEST
-                MsgSeqNum = _messageCount++
-            };
-            #endregion
+            HeaderMessage msHeader = new HeaderMessage("c", _messageCount++);
+
             SecurityDefinition msSecurityDefinition = new SecurityDefinition();
             msHeader.BodyLength = msHeader.GetHeaderSize() + msSecurityDefinition.GetMessageSize();
 
@@ -297,16 +251,8 @@ namespace QuikFix
 
         public void SendRequestPosition()
         {
-            #region Создание заголовка сообщения
-            HeaderMessage msHeader = new HeaderMessage
-            {
-                BeginString = "FIX.4.2",
-                MsgType = "AN",
-                SenderCompID = "TEST",      //      было наоборот   QUIK 
-                TargetCompID = "QUIK",      // FG   было наоборот   TEST
-                MsgSeqNum = _messageCount++
-            };
-            #endregion
+            HeaderMessage msHeader = new HeaderMessage("AN", _messageCount++);
+
             RequestPositions msRequestPositions = new RequestPositions();
             msHeader.BodyLength = msHeader.GetHeaderSize() + msRequestPositions.GetMessageSize();
 

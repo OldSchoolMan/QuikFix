@@ -25,12 +25,12 @@ namespace QuikFix
 
         private Random rnd = new Random();
 
-        public OrderMessage(string price, string side )
+        public OrderMessage(string price, string side, char ordType )
         {
             ClOrdID = DateTime.Now.ToString("HHmmssfff"); //  rnd.Next(10000).ToString()       
             Side = side;
             TransactTime = DateTime.Now.AddHours(-3).ToString("yyyyMMdd-HH:mm:ss.fff");
-            OrdType = '2';
+            OrdType = ordType;
             Price = price;
             OrderQty = 10;
             HandlInst = '2';

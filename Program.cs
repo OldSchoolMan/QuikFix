@@ -13,7 +13,7 @@ namespace QuikFix
 
             string str = "8=FIX.4.2\u00019=55\u000135=1\u000149=QUIK\u000156=TEST\u000134=2\u000152=20200126-10:43:13\u0001112=CRT\u000110=054\u0001";
 
-            var fw = new FixWorker("127.0.0.1", 8001);
+            var fw = new FixWorker("", 0);  //  127.0.0.1   8001
 
             fw.OnLogon += fw_onLogon;
             fw.OnLogon += fw_onLogout;
@@ -22,14 +22,15 @@ namespace QuikFix
                 fw.SocketConnect();
                 Console.WriteLine("{0}: Запрос на подключение", DateTime.Now.ToString("HH:mm:ss.fff"));
                 fw.Logon();
-                Thread.Sleep(400);
+                Thread.Sleep(250);
                 
-                fw.ReadSocket();
-                Thread.Sleep(400);
+                //fw.ReadSocket();
+                Thread.Sleep(250);
                 
                 fw.HeartBeat();
-                Thread.Sleep(400);
+                Thread.Sleep(250);
                 
+                /*
                 fw.SendRequestPosition();
                 Thread.Sleep(250);
                 while (true)
@@ -37,17 +38,17 @@ namespace QuikFix
                     fw.ReadSocket();
                     Thread.Sleep(5);
                 }
-
-                /*
-                fw.Order("277.00", "1");
-                Thread.Sleep(250);
-
-                fw.ReadSocket();
-                Thread.Sleep(250);
-
-                fw.Order("292.00", "2");
-                Thread.Sleep(250);
                 */
+                
+                //fw.Order("250.50", "1", '2');
+                Thread.Sleep(100);
+
+                //fw.ReadSocket();
+                Thread.Sleep(100);
+
+                //fw.Order("264.00", "1", '2');
+                Thread.Sleep(100);
+                
 
                 //fw.SendSecurityDefinition();
 
@@ -63,13 +64,22 @@ namespace QuikFix
                     //Thread.Sleep(1000);
                 }
                 */
+                //fw.ReadSocket();
+                Thread.Sleep(1000);
+                /*
+                for (int i = 0; i < 10; i++)
+                {
+                    Thread.Sleep(5000);
+                    fw.ReadSocket();
+                    fw.HeartBeat();
+                }
+                */
                 fw.ReadSocket();
-                Thread.Sleep(250);
-                fw.ReadSocket();
+
                 Console.WriteLine("{0}: Запрос на отключение", DateTime.Now.ToString("HH:mm:ss.fff"));
                 fw.Logout();
                 Thread.Sleep(250);
-                fw.ReadSocket();
+                //fw.ReadSocket();
                 Thread.Sleep(250);
                 fw.SocketDisconnect();
                 
@@ -80,12 +90,13 @@ namespace QuikFix
                 Console.WriteLine(e);
             }
             
-            //Console.ReadLine();
+            Console.ReadLine();
         }
 
         private static void fw_onLogon(HeaderMessage hm)
         {
             Console.WriteLine("{0}: Принято сообщение на подключение.\n{1},{2},{3},{4}", DateTime.Now.ToString("HH:mm:ss.fff"), hm.SenderCompID, hm.TargetCompID, hm.MsgSeqNum, hm.SendingTime);
+            
         }
 
         public static void fw_onLogout(HeaderMessage hm)
