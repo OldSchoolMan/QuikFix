@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace QuikFix
 {
@@ -20,7 +16,7 @@ namespace QuikFix
             SecurityReqID = "12345";
             SecurityReqType = "0";
             IDSource = "8";
-            Symbol = "RIH0";
+            Symbol = "SBER";
         }
 
         public override string ToString()

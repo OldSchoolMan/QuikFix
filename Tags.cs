@@ -11,6 +11,12 @@
         Account = 1,
 
         /// <summary>
+        /// Средняя цена в исполненных сделках.
+        /// Для сделок РЕПО с ЦК и сделок по календарным спредам: цена первой части сделки
+        /// </summary>
+        AvgPx = 6,
+
+        /// <summary>
         /// BeginSeqNo
         /// </summary>
         BeginSeqNo = 7,
@@ -39,6 +45,16 @@
         ClOrdID = 11,
 
         /// <summary>
+        /// Исполненное количество в штуках
+        /// </summary>
+        CumQty = 14,
+
+        /// <summary>
+        /// Валюта номинала или валюта шага цены
+        /// </summary>
+        Currency = 15,
+        
+        /// <summary>
         /// EndSeqNo
         /// </summary>
         EndSeqNo = 16,
@@ -47,6 +63,12 @@
         /// Уникальный идентификатор сделки.
         /// </summary>
         ExecID = 17,
+
+        /// <summary>
+        /// Значение: «0» — New.
+        /// «3» для отчетов, отправленных в ответ на сообщение OrderMassStatusRequest
+        /// </summary>
+        ExecTransType = 20,
 
         /// <summary>
         /// HandlInst «1», «2»
@@ -64,6 +86,17 @@
         /// «100» — краткое наименование
         /// </summary>
         IDSource = 22,
+
+        /// <summary>
+        /// Цена сделки.
+        /// Для сделок РЕПО с ЦК и сделок по календарным спредам: цена первой части сделки
+        /// </summary>
+        LastPx = 31,
+
+        /// <summary>
+        /// Количество в текущей сделке в штуках
+        /// </summary>
+        LastQty = 32,
 
         /// <summary>
         /// MsgSeqNum
@@ -85,6 +118,11 @@
         /// на кратность размеру лота и конвертируется в лоты
         /// </summary>
         OrderQty = 38,
+
+        /// <summary>
+        /// Текущее состояние заявки.
+        /// </summary>
+        OrdStatus = 39,
 
         /// <summary>
         /// Тип заявки. «1» — Market; «2» — Limit.
@@ -152,9 +190,19 @@
         TransactTime = 60,
 
         /// <summary>
+        /// RawData
+        /// </summary>
+        RawData = 96,
+
+        /// <summary>
         /// Значение: «0» (не использовать криптование)
         /// </summary>
         EncryptMethod = 98,
+
+        /// <summary>
+        /// ExDestination
+        /// </summary>
+        ExDestination = 100,
 
         /// <summary>
         /// В секундах
@@ -182,8 +230,30 @@
         SecurityType = 167,
 
         /// <summary>
+        /// Тип отчета
+        /// </summary>
+        ExecType = 150,
+
+        /// <summary>
+        /// Оставшееся количество в штуках
+        /// </summary>
+        LeavesQty = 151,
+
+        /// <summary>
+        /// Объем заявки в денежных единицах
+        /// </summary>
+        CashOrderQty = 152,
+
+        /// <summary>
+        /// Информационное поле, возвращается клиенту в ответных сообщениях ExecutionReport.
+        /// </summary>
+        SecurityExchange = 207,
+
+        /// <summary>
         /// Тип подписки. Возможные значения
         /// «0» — SNAPSHOT;
+        /// «1» — SNAPSHOT_PLUS_UPDATES;
+        /// «2» — DISABLE_PREVIOS_SNAPSHOT_PLUS_UPDATES
         /// </summary>
         SubscriptionRequestType = 263,
 
@@ -219,6 +289,13 @@
         SessionRejectReason = 373,
 
         /// <summary>
+        /// Возможные значения:
+        /// «D» — Proprietary / Custom code;
+        /// «P» — Short code identifier
+        /// </summary>
+        PartyIDSource = 447,
+
+        /// <summary>
         /// Возможные значения в зависимости от значения PartyRole:
         /// «3» — Код клиента для денежных и бумажных лимитов;
         /// «38» — Position account
@@ -232,6 +309,10 @@
         /// </summary>
         PartyRole = 452,
 
+        /// <summary>
+        /// Количество PartyID-групп. Если присутствует, то значение: «2»
+        /// </summary>
+        NoPartyIDs = 453,
 
         /// <summary>
         /// Пароль пользователя. (Максимальная длина – 8 символов)
@@ -262,11 +343,30 @@
         OrderNum = 5002,
 
         /// <summary>
+        /// Идентификатор пользователя QUIK, выставившего заявку
+        /// </summary>
+        UserID = 5015,
+
+        /// <summary>
+        /// Идентификатор рабочей станции трейдера
+        /// </summary>
+        StationID = 5016,
+
+        /// <summary>
+        /// Смещение локального времени Интерфейса относительно GMT
+        /// </summary>
+        TradeTimeGMT = 5017,
+
+        /// <summary>
+        /// Идентификатор дилера в сделке
+        /// </summary>
+        FirmId = 5018,
+
+        /// <summary>
         /// Комиссия за выдачу наличных, для неторговых поручений;
         /// Комиссия техцентра
         /// </summary>
         ServiceCommission = 5010,
-
 
         /// <summary>
         /// Клиентский идентификатор транзакции на сервере QUIK
